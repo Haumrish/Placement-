@@ -1,0 +1,50 @@
+'''John was learning about arrays when his friend Ram arrived. Seeing John, Ram thought of a challenge for him. He challenged John to calculate the "measurement" of an array a of size n.
+Given a 0-indexed array, Ram defined the measurement of the array as the sum of the "sanities" of all the elements in the array. To calculate the sanity of each element in the array, the following operations need to be performed:
+
+Sort the given array.
+Calculate the sanity of an element in the array, which is defined as the sum of its original index (before sorting) and the index of its last occurrence in the new array (after sorting).
+Your task is to help John calculate the measurement of the array. Since the output may be too large, print it modulo 10^9+7.'''
+
+def user_logic(n, arr):
+    """
+    Parameters:
+        n (int): Number of elements in the array
+        arr (list of int): List of integers
+    Returns:
+        int: Computed result based on the problem statement
+    """
+    MOD = 10**9 + 7
+
+    # Step 1: Pair value with original index
+    indexed = [(val, idx) for idx, val in enumerate(arr)]
+
+    # Step 2: Sort based on values
+    sorted_by_val = sorted(indexed)
+
+    # Step 3: Store the last occurrence index in the sorted array
+    last_index = {}
+    for i, (val, _) in enumerate(sorted_by_val):
+        last_index[val] = i
+
+    # Step 4: Calculate total measurement
+    measurement = 0
+    for i in range(n):
+        val = arr[i]
+        measurement = (measurement + i + last_index[val]) % MOD
+
+    return measurement
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().strip().split()
+    
+    n = int(data[0])  # First input is the integer n
+    arr = list(map(int, data[1:]))  # Remaining input is the array of integers
+    
+    # Call user logic function and print the output
+    result = user_logic(n, arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
